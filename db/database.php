@@ -28,24 +28,20 @@ function selectAll($con){
   $sql="SELECT* FROM moviestb";
   $run =mysqli_query($con,$sql);
   while($row=mysqli_fetch_array($run)){
-    echo "<div id='img_div'>";
-    echo "<img src='./image/".$row['image']."'>";
-    
-    echo "</div>";
-    echo "<div id='img'>";
-    echo "<p>Title:".$row['title']."</p>";
-    echo "</div>";
-    echo "<div id='img'>";
-    echo "<p>Duration:".$row['duration']."</p>";
-    echo "</div>";
-    echo "<div id='img'>";
-    echo "<p>Genre:".$row['genre']."</p>";
-    echo "</div>";
-    echo "<div id='img'>";
-    echo "<p>Language".$row['language']."</p>";
-    echo "</div>";
-    
+    $output.="<div class='card' style='width: 18rem;'>
+  <img class='card-img-top' src='./image/".$row['image']."' alt='Card image cap'>
+  <div class='card-body'>
+    <h5 class='card-title'>Title:".$row['title']."</h5>
+  </div>
+  <ul class='list-group list-group-flush'>
+    <li class='list-group-item'>Duration:".$row['duration']."</li>
+    <li class='list-group-item'>Genre:".$row['genre']."</li>
+    <li class='list-group-item'>Language".$row['language']."</li>
+  </ul>
+ 
+</div>";
     }
+    echo $output;
     
 }
 

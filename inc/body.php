@@ -84,12 +84,13 @@ body {
   <div class="form-group" >
   <label for="exampleFormControlSelect1">Sort</label>
   <select class="form-control same" name="sort" id="sort">
+  <option value="">Sort</option>
   <option value="freshness">Freshness</option>
   <option value="length">Length</option>
   </select>
   
-  </div>
-  <div  id="all">
+  </div> 
+  <div class="row justify-content-center" id="all" >
   <?php 
 
   echo selectAll($con); ?>
