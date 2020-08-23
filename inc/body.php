@@ -83,7 +83,7 @@ body {
   </div>
   <div class="form-group" >
   <label for="exampleFormControlSelect1">Sort</label>
-  <select class="form-control samesort" name="sort" id="sort">
+  <select class="form-control same" name="sort" id="sort">
   <option value="freshness">Freshness</option>
   <option value="length">Length</option>
   </select>
@@ -119,22 +119,7 @@ $(document).ready(function(){
 </script>
 
 <!-- SCRIPT FOR SORT -->
-<script>
-$(document).ready(function(){
-$('#sort').change(function(){
-var sorting= $(this).val();
-console.log(sorting);
-$.ajax({
-  url:"post.php",
-  method:"POST",
-  data:{sorting:sorting},
-  success:function(data){
-    $('#all').html(data);
-  }
-})
-});
-});
-</script>
+
 
 
 <!-- SCRIPT FOR FILTER -->
@@ -145,15 +130,17 @@ $('.same').change(function(){
 
 var languagedrop= get_filter_text('language');
 var genredrop= get_filter_text('genre');
+var sorting=get_filter_text('sort');
 console.log("language:"+languagedrop);
 console.log("genre:"+genredrop);
+console.log("sort:"+sorting);
 
 
 
 $.ajax({
   url:"post.php",
   method:"POST",
-  data:{action:action,languagedrop:languagedrop,genredrop:genredrop},
+  data:{action:action,languagedrop:languagedrop,genredrop:genredrop,sorting:sorting},
  
   success:function(data){
     $('#all').html(data);

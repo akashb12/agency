@@ -21,6 +21,35 @@ if(isSet($_POST['action'])){
     // echo $sql;
     }
     }
+    if(isSet($_POST['sorting'])){
+        $sort=implode("','",$_POST['sorting']);
+        
+        echo $sort;
+
+        if($sort=='freshness'){
+            if($genredrop !='' || $languagedrop !=''){
+        $sql="SELECT * FROM moviestb WHERE language ='".$languagedrop."' OR genre ='".$genredrop."' ORDER BY id DESC";
+    }
+    else{
+        $sql="SELECT * FROM moviestb ORDER BY id DESC";
+    }
+}
+    if($sort=='length'){
+        if($genredrop !='' || $languagedrop !=''){
+        $sql="SELECT * FROM moviestb WHERE language ='".$languagedrop."' OR genre ='".$genredrop."' ORDER BY duration +0 DESC";
+        }
+        else{
+              $sql="SELECT * FROM moviestb ORDER BY duration +0 DESC";
+
+        }
+        
+ 
+    }
+   
+      
+     
+    }
+    
     
     
 
@@ -92,38 +121,5 @@ $run =mysqli_query($con,$sql);
 
 // sort
 
-if(isSet($_POST['sorting'])){
 
-    if($_POST['sorting']=='freshness'){
-    $sql="SELECT * FROM moviestb ORDER BY id DESC";
-}
-else{
-    $sql="SELECT * FROM moviestb ORDER BY duration +0 DESC";
-}
-$run =mysqli_query($con,$sql);
-//   echo mysqli_num_rows($run);
-  
-  if(mysqli_num_rows($run)>0){
-  while($row=mysqli_fetch_array($run)){
-    echo "<div id='img_div'>";
-    echo "<img src='./image/".$row['image']."'>";
-    
-    echo "</div>";
-    echo "<div id='img'>";
-    echo "<p>Title:".$row['title']."</p>";
-    echo "</div>";
-    echo "<div id='img'>";
-    echo "<p>Duration:".$row['duration']."</p>";
-    echo "</div>";
-    echo "<div id='img'>";
-    echo "<p>Genre:".$row['genre']."</p>";
-    echo "</div>";
-    echo "<div id='img'>";
-    echo "<p>Language".$row['language']."</p>";
-    echo "</div>";
-}
-    
-    
-}
-}
 ?>
