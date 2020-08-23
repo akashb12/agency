@@ -62,34 +62,75 @@ body {
        
        
       </ul>
-      <form class="form-inline my-2 my-lg-0" action="" method="post">
+      <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="text" name="search" placeholder="Search" aria-label="Search">
         <button name="searchButton" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
     </div>
   </nav>
-  <div class="container" id="show_product">
-  <select name="brand" id="brand">
+  <div class="form-group" id="show">
+  <label for="exampleFormControlSelect1">Filter By Language</label>
+  <select class="form-control same" name="language" id="language">
   <option value="">Show all</option>
   <?php echo selectLanguage($con); ?>
   </select>
+  
+  </div>
+  
+  <div class="form-group" >
+  <label for="exampleFormControlSelect1">Filter By Genre</label>
+  <select class="form-control same" name="genre" id="genre">
+  <option value="">Show all</option>
+  <?php echo selectGenre($con); ?>
+  </select>
+  
+  </div>
+  <div  id="all">
+  <?php 
+
+  echo selectAll($con); ?>
   </div>
   
 </body>
 </html>
-<script>
+<script type="text/javascript">
 $(document).ready(function(){
-$('#brand').change(function(){
-var languagedrop= $(this).val();
+$('.same').change(function(){
+  var action='data';
+
+var languagedrop= get_filter_text('language');
+var genredrop= get_filter_text('genre');
+console.log("language:"+languagedrop);
+console.log("genre:"+genredrop);
+
+
+
 $.ajax({
   url:"post.php",
   method:"POST",
-  data:{languagedrop:languagedrop},
+  data:{action:action,languagedrop:languagedrop,genredrop:genredrop},
+ 
   success:function(data){
-    $('#show_product').html(data);
+    $('#all').html(data);
   }
+  
 })
 });
+function get_filter_text(text){
+var filterData =[];
+
+$('#'+text+' option:selected').each(function(){
+  filterData.push($(this).val());
+
+
+});
+console.log(filterData);
+return filterData;
+
+}
+
 });
 </script>
+
+
   

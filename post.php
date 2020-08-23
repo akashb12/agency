@@ -1,16 +1,33 @@
 <?php
-include "./db/database.php";
-if(isSet($_POST['languagedrop'])){
-       
-    if($_POST['languagedrop'] !=''){
-    $sql="SELECT * FROM moviestb WHERE language ='".$_POST["languagedrop"]."'";
 
+include "./db/database.php";
+if(isSet($_POST['action'])){
+    $sql="SELECT * FROM moviestb WHERE id !=''";
+    if(isSet($_POST['languagedrop'])){
+      
+        $languagedrop=implode("','",$_POST['languagedrop']);
+        if( $languagedrop !=''){
+    $sql .="AND language IN('".$languagedrop."')";
+    
+        }
     }
-    else{
-        $sql ="SELECT * FROM moviestb";
+    
+ if(isSet($_POST['genredrop'])){
+    
    
-      }
+        $genredrop=implode("','",$_POST['genredrop']);
+        if($genredrop !=''){
+    $sql .="AND genre IN('".$genredrop."')";
+    // echo $sql;
+    }
+    }
+    
+    
+
       $run =mysqli_query($con,$sql);
+    //   echo mysqli_num_rows($run);
+      
+      if(mysqli_num_rows($run)>0){
       while($row=mysqli_fetch_array($run)){
         echo "<div id='img_div'>";
         echo "<img src='./image/".$row['image']."'>";
@@ -28,7 +45,17 @@ if(isSet($_POST['languagedrop'])){
         echo "<div id='img'>";
         echo "<p>Language".$row['language']."</p>";
         echo "</div>";
+        
 
     }
+    
+    
 }
+else{
+    echo "<h3>no products found</h3>";
+}
+
+}
+
+
 ?>
