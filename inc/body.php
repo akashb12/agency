@@ -81,6 +81,14 @@ body {
   </select>
   
   </div>
+  <div class="form-group" >
+  <label for="exampleFormControlSelect1">Sort</label>
+  <select class="form-control samesort" name="sort" id="sort">
+  <option value="freshness">Freshness</option>
+  <option value="length">Length</option>
+  </select>
+  
+  </div>
   <div  id="all">
   <?php 
 
@@ -107,6 +115,24 @@ $(document).ready(function(){
 })
 
   });
+});
+</script>
+
+<!-- SCRIPT FOR SORT -->
+<script>
+$(document).ready(function(){
+$('#sort').change(function(){
+var sorting= $(this).val();
+console.log(sorting);
+$.ajax({
+  url:"post.php",
+  method:"POST",
+  data:{sorting:sorting},
+  success:function(data){
+    $('#all').html(data);
+  }
+})
+});
 });
 </script>
 
