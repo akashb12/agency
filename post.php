@@ -105,7 +105,6 @@ while($row=mysqli_fetch_array($run)){
 <li class='list-group-item'>Genre:".$row['genre']."</li>
 <li class='list-group-item'>Language".$row['language']."</li>
 </ul>
-
 </div>";
   
 
@@ -154,7 +153,7 @@ $sql="SELECT * FROM `moviestb` LIMIT {$page},{$limit}";
 }
 $output.=" <div id='pagination'>
  
-  <button id='ajaxbtn' data-id='{$last_id}'>Load More</button>
+  <button class='btn btn-primary' id='ajaxbtn' data-id='{$last_id}'>Load More</button>
   
   </div>";
 
