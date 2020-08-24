@@ -9,8 +9,7 @@ include "./db/database.php";
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Media_For_you</title>
    <!-- CSS only -->
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <style>
     img{
     float:left;
@@ -90,12 +89,11 @@ body {
   </select>
   
   </div> 
-  <div class="row justify-content-center" id="all" >
-  <?php 
-
-  echo selectAll($con); ?>
-  </div>
+  <div class="row justify-content-center ">
+  <div  id="all" >
   
+  </div>
+  </div>
 </body>
 </html>
 <!-- SCRIPT FOR SEARCH -->
@@ -162,6 +160,44 @@ return filterData;
 
 }
 
+});
+</script>
+  <!-- SCRIPT FOR loadmore -->
+  <script type="text/javascript">
+$(document).ready(function(){
+function loadTable(page){
+  var paggination='data';
+  $.ajax({
+  url:"post.php",
+  method:"POST",
+  data:{pageNo:page,paggination:paggination},
+ 
+ 
+  success:function(data){
+    if(data){
+      $('#pagination').remove();
+      $('#all').append(data);
+    }
+    else{
+      $('#ajaxbtn').prop("disabled",true);
+
+    }
+   
+  }
+  
+});
+}
+loadTable();
+    
+
+  $(document).on("click","#ajaxbtn",function(){
+   
+    var pageId=$(this).data("id");
+    console.log(pageId);
+    loadTable(pageId);
+  })
+
+  
 });
 </script>
 

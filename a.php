@@ -7,8 +7,18 @@ if(isSet($_POST['action'])){
       
         $languagedrop=implode("','",$_POST['languagedrop']);
         if( $languagedrop !=''){
-    $sql .="AND language IN('".$languagedrop."')";
-    // echo $sql;
+          $limit=3;
+  
+          if(isSet($_POST['pageNo'])){
+          $page=$_POST['pageNo'];
+          // echo $page;
+          }
+          else{
+            $page=0;
+          }
+          
+    $sql .="AND language IN('".$languagedrop."') LIMIT {$page},{$limit}";
+     echo $sql;
         }
     }
     
@@ -53,30 +63,41 @@ if(isSet($_POST['action'])){
     
     
 
-      $run =mysqli_query($con,$sql);
-    //   echo mysqli_num_rows($run);
-      $output='';
-      if(mysqli_num_rows($run)>0){
-      while($row=mysqli_fetch_array($run)){
-        $output.="<div class='card' style='width: 18rem;'>
-  <img class='card-img-top' src='./image/".$row['image']."' alt='Card image cap'>
-  <div class='card-body'>
-    <h5 class='card-title'>Title:".$row['title']."</h5>
-  </div>
-  <ul class='list-group list-group-flush'>
-    <li class='list-group-item'>Duration:".$row['duration']."</li>
-    <li class='list-group-item'>Genre:".$row['genre']."</li>
-    <li class='list-group-item'>Language".$row['language']."</li>
-  </ul>
- 
-</div>";
-        
-
-    }
-    echo $output;
+    $result=mysqli_query($con,$sql);
+    $output="";
+    if(mysqli_num_rows($result)>0){
+     
+      while($row=mysqli_fetch_array($result)){
+        $last_id=$row['id'];
+      
+       $output.="<div class='card' style='width: 18rem;'>
+    <img class='card-img-top' src='./image/".$row['image']."' alt='Card image cap'>
+    <div class='card-body'>
+      <h5 class='card-title'>Title:".$row['title']."</h5>
+    </div>
+    <ul class='list-group list-group-flush'>
+      <li class='list-group-item'>Duration:".$row['duration']."</li>
+      <li class='list-group-item'>Genre:".$row['genre']."</li>
+      <li class='list-group-item'>Language".$row['language']."</li>
+    </ul>
+   
+  </div>";
+   
     
     
-}
+  }
+  $output.=" <div id='pagination'>
+   
+    <button id='ajaxbtn' data-id='{$last_id}'>Load More</button>
+    
+    </div>";
+  
+    
+    
+    
+    
+  echo $output;
+  }
 else{
     echo "<h3>no products found</h3>";
 }
@@ -117,7 +138,8 @@ echo $output;
 }
 // paggination
 
-if(isSet($_POST['paggination'])){
+if(isSet($_POST['languagedrop'])){
+  
   $limit=3;
   
 if(isSet($_POST['pageNo'])){
@@ -164,5 +186,6 @@ $output.=" <div id='pagination'>
   
 echo $output;
 }
+
 }
 ?>
